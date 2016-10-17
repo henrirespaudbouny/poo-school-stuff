@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cstdio>
 #include <vector>
+#include <fstream>
 
 
 //CLASSES
@@ -201,7 +202,7 @@ class Person{
 			void printPhone(){std::cout << 	   phone << std::endl;}
 
 			
-			void printPerson(Person contact){
+			static void printPerson(Person contact){
 				contact.printFirstName();
 				contact.printName();
 				contact.printAge();
@@ -266,16 +267,32 @@ class Person{
 			}
 
 			//SEARCH
-			/******************************************************************
-			void findContact(vector<AddressBook> &contact_list) {
+			static void findContactByFirstName(std::vector<Person> &contact_list){
+				std::string search;
+				unsigned int result = 0;
+
+				std::cin.ignore();
+
+				std::cout << "Enter First name :";
+				getline(std::cin, search);
+				
+				for (unsigned int i = 0 ; i < contact_list.size() ; i++){
+					if(search == contact_list[i].firstname){
+						result++;
+						printPerson(contact_list[i]);
+					}
+				}
+
+				if(!result)
+					std::cout << "NO MATCH !" << std::endl;
 
 			}	
-			********************************************************************/
+
 
 			//REMOVE
 			static void removeContact(std::vector<Person> &contact_list){
-				int index = 0;
-				contact_list.erase(contact_list.begin()+(index-1));
+				int index = 4;
+				contact_list.erase(contact_list.begin()+(index));
 				std::cout << "DELETE !" << std::endl;
 			}
 
@@ -296,10 +313,34 @@ class Person{
 			}
 
 			//EXPORT
+			static void saveFile(const std::vector<Person> &contact_list) {
 
-			
+				std::string filename;
+				std::ofstream outfile;
 
-		
+				std::cin.ignore();
+				std::cout<<"Enter file name (.txt): ";
+
+				getline(std::cin,filename);
+				outfile.open(filename.c_str());
+
+
+				if (!outfile.fail()){
+					std::cout << "Saving Address Book to the disc ";
+
+					for(unsigned int i = 0; i < contact_list.size(); i++){
+						outfile << contact_list[i].firstname;
+
+						if (i < contact_list.size()-1) outfile << std::endl;
+					}
+
+				std::cout << std::endl << contact_list.size() << " Address Book written to the disc." << std::endl;
+				outfile.close();
+				} 
+				else { 
+					std::cout << "ERROR: problem with file" << std::endl;
+				}
+			}
 };
 
 //PROGRAM
@@ -321,6 +362,9 @@ int main(){
 		if(menu_answer == 1)
 			Person::showContacts(contact_list);
 
+		if(menu_answer == 2)
+			Person::findContactByFirstName(contact_list);
+
 		if(menu_answer == 3)
 			Person::addContact(contact_list);
 
@@ -329,6 +373,9 @@ int main(){
 
 		if(menu_answer == 5)
 			Person::editContact(contact_list);
+
+		if(menu_answer == 6)
+			Person::saveFile(contact_list);
 
 		if(menu_answer == 7)
 			Menu::goodbyeMessage(&loop);
