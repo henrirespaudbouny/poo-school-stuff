@@ -41,6 +41,18 @@ class Menu{
 		std::cin >> answer; 
 		return answer;
 	}
+	
+	static int callToActionMenu(){
+		std::string answer;
+		
+		std::cout << "1) ADD  	2) EXIT" << std::endl;
+		std::cout << "YOUR CHOICE :";
+		std::cin.ignore();
+		getline(std::cin, answer);
+		int int_answer = std::stoi(answer, 0, 10);
+		
+		return int_answer;
+	}
 };
 
 class Address{
@@ -216,12 +228,14 @@ class Person{
 			static void addContact(std::vector<Person> &contact_list){
 				Person new_contact = Person("","",0,0,"","","","","","");
 				std::string answer;
-
+				
 				std::cout << std::endl;
-				std::cout << "Enter Contact Information" << std::endl;
 				std::cout << std::endl;
-
-				std::cin.ignore();
+				std::cout << std::endl;
+				
+				std::cout << "=================ADD CONTACT FORM==================" << std::endl;
+				std::cout << "Please enter Contact Information" << std::endl;
+				std::cout << std::endl;
 
 				std::cout << "Enter First name :";
 				getline(std::cin, answer);
@@ -255,15 +269,41 @@ class Person{
 
 			//SHOW
 			static void showContacts(std::vector<Person> &contact_list){
+				int menu_answer = 1;
+				
+				std::cout << std::endl;
+				std::cout << std::endl;
+				std::cout << std::endl;
+
+				std::cout << "==============LIST OF YOUR CONTACT(S)==============" << std::endl;
 
 				if(contact_list.size() < 1) {
-					std::cout << "No Contact !" << std::endl;
-				} 
+					std::cout << std::endl;
+					std::cout << "No Contact(s) yet !" << std::endl;
+					std::cout << std::endl;
+					std::cout << "===================================================" << std::endl;
+					
+						while(menu_answer){
+							menu_answer = Menu::callToActionMenu();
+							if( menu_answer == 1 ){
+								Person::addContact(contact_list);
+								std::cout << "===================================================" << std::endl;
+							}
+							else if( menu_answer == 2 )
+								return;
+							else
+								std::cout << "ERROR PLEASE CHOOSE AGAIN !" << std::endl;		
+						}
+				}
 				else{
 					for (unsigned int i = 0 ; i < contact_list.size() ; i++){
-						std::cout << contact_list[i].firstname << std::endl;
+						std::cout 	<< i+1 << "." << contact_list[i].firstname << std::endl;
 					}
 				}
+				
+				std::cout << std::endl;
+				std::cout << std::endl;
+				std::cout << std::endl;
 			}
 
 			//SEARCH
