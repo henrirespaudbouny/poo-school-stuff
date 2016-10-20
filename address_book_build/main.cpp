@@ -1,4 +1,4 @@
-//COMPILE WITH : g++ -Wall main.cpp -std=c++11 -o address_book.exe
+//COMPILE WITH : g++ main.cpp -Wall -std=c++11 -o address_book.exe
 
 //LIBRARIES
 #include <iostream>
