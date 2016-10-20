@@ -359,6 +359,7 @@ class Person{
 
 			//REMOVE
 			static void removeContact(std::vector<Person> &contact_list, int index){
+				contact_list[index-1].~Person();
 				contact_list.erase(contact_list.begin()+(index-1));
 				std::cout << "CONTACT DELETED !" << std::endl;
 			}
